@@ -19,7 +19,7 @@
     <div class="navbar-end">
       <div class="navbar-item">
       	@if(auth()->check())
-	      	<a class="navbar-item" href="{{route('login')}}">
+	      	<a class="navbar-item" href="{{route('account')}}">
 		        Your Account
 		    </a>
 		    <a class="navbar-item" href="{{route('logout')}}" onclick="event.preventDefault();
