@@ -9,6 +9,19 @@ use Illuminate\Http\Request;
 
 class FileController extends Controller
 {
+	public function index()
+	{
+		$files = auth()->user()->files()->latest()->finished()->get();
+
+		return view('account.files.index', compact('files'));
+	}
+
+	public function edit(File $file)
+	{
+		$this->authorize('touch', $file);
+		return view('account.files.edit', compact('file'));
+	}
+
     public function create(File $file)
     {
     	if(!$file->exists) {
@@ -31,7 +44,7 @@ class FileController extends Controller
     	$file->save();
 
 
-    	return redirect()->route('account');
+    	return redirect()->route('account.files.index')->withSuccess('Thanks submitted for review');
     }
 
     protected function createAndReturnSkeletonFile()
