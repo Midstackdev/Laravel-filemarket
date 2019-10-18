@@ -5,7 +5,7 @@
 </head>
 <body>
     <div id="app">
-        @include('layouts.partials._navigation')
+        
         
         @yield('content')
         

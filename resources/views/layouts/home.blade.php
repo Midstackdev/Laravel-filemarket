@@ -5,9 +5,13 @@
 </head>
 <body>
     <div id="app">
-        @include('layouts.partials._navigation')
-        
-        @yield('content')
+    	<section class="hero is-primary is-medium">
+    		<div class="hero-head">
+	        	@include('layouts.partials._navigation')
+	        </div>
+	        
+	        @yield('content')
+	    </section>    
         
     </div>
     @include('layouts.partials._scripts')
