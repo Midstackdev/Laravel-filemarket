@@ -2,14 +2,22 @@
 
 namespace App\Models;
 
+use App\Models\FileApproval;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class File extends Model
 {
 	use SoftDeletes;
+
+	const APPROVAL_PROPERTIES = [
+		'title',
+		'overview_short',
+		'overview'
+	];
 
 	protected $fillable = [
 		'title',
@@ -43,6 +51,30 @@ class File extends Model
 	public function isFree()
 	{
 		return $this->price == 0;
+	}
+
+	public function needsApproval(array $approvalProperties)
+	{
+		if ($this->currentPropertiesDifferToGiven($approvalProperties)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public function createApproval(array $approvalProperties)
+	{
+		$this->approvals()->create($approvalProperties);
+	}
+
+	protected function currentPropertiesDifferToGiven(array $properties)
+	{
+		return Arr::only($this->toArray(), self::APPROVAL_PROPERTIES) != $properties;
+	}
+
+	public function approvals()
+	{
+		return $this->hasMany(FileApproval::class);
 	}
 
     public function user()

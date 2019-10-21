@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Account;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\File\StoreFileRequest;
+use App\Http\Requests\File\{StoreFileRequest, UpdateFileRequest};
 use App\Models\File;
 use Illuminate\Http\Request;
 
@@ -19,7 +19,10 @@ class FileController extends Controller
 	public function edit(File $file)
 	{
 		$this->authorize('touch', $file);
-		return view('account.files.edit', compact('file'));
+		return view('account.files.edit', [
+            'file' => $file,
+            'approval' => $file->approvals->first(),
+        ]);
 	}
 
     public function create(File $file)
@@ -45,6 +48,22 @@ class FileController extends Controller
 
 
     	return redirect()->route('account.files.index')->withSuccess('Thanks submitted for review');
+    }
+
+    public function update(File $file, UpdateFileRequest $request)
+    {
+        $this->authorize('touch', $file);
+
+        $approvalProperties = $request->only(FILE::APPROVAL_PROPERTIES);
+
+        if($file->needsApproval($approvalProperties)) {
+            $file->createApproval($approvalProperties);
+            return back()->withSuccess('Thanks! We will review your changes soon');
+        }
+
+        $file->update($request->only(['live', 'price']));
+
+        return back()->withSuccess('File updated!');
     }
 
     protected function createAndReturnSkeletonFile()

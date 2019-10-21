@@ -3,14 +3,20 @@
 @section('account.content')
 	<h1 class="title">Make changes to {{$file->title}}</h1>
 
-	<form action="{{ route('account.files.store', $file) }}" method="post" class="form">
+  @if($approval)
+    @include('account.files.partials._changes', compact('approval', 'file'))
+  @endif
+
+	<form action="{{ route('account.files.update', $file) }}" method="post" class="form">
 		@csrf
 		@method('patch')
+
+    <input type="hidden" name="live" id="live" value="0">
 
 		<div class="field">
 			<div class="control">
 				<label for="live" class="checkbox">
-					<input type="checkbox" name="live" id="live" {{$file->live ? ' checked' : ''}}>
+					<input type="checkbox" name="live" id="live" {{$file->live ? ' checked' : ''}} value="{{'on' ? 1 : 0}}">
 					Live
 				</label>
 			</div>
