@@ -10,6 +10,9 @@
         @yield('content')
         
     </div>
+    <!-- Scripts -->
+	<script src="{{ asset('js/app.js') }}"></script>
     @include('layouts.partials._scripts')
+    @yield('scripts')
 </body>
 </html>

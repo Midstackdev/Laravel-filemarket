@@ -59,6 +59,10 @@ class File extends Model
 			return true;
 		}
 
+		if ($this->uploads->where('approved', 0)->count()) {
+			return true;
+		}
+
 		return false;
 	}
 
@@ -70,6 +74,11 @@ class File extends Model
 	protected function currentPropertiesDifferToGiven(array $properties)
 	{
 		return Arr::only($this->toArray(), self::APPROVAL_PROPERTIES) != $properties;
+	}
+
+	public function uploads()
+	{
+		return $this->hasMany(Upload::class);
 	}
 
 	public function approvals()

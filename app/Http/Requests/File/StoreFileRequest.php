@@ -3,6 +3,7 @@
 namespace App\Http\Requests\File;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreFileRequest extends FormRequest
 {
@@ -17,6 +18,17 @@ class StoreFileRequest extends FormRequest
     }
 
     /**
+     * Get data to be validated from the request.
+     *
+     * @return array
+     */
+    public function validationData()
+    {
+        $this->merge(['uploads' => $this->file->id]);
+        return $this->all();
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array
@@ -28,13 +40,20 @@ class StoreFileRequest extends FormRequest
             'overview_short' => 'required|max:300',
             'overview' => 'required|max:5000',
             'price' => 'required|numeric',
+            'uploads' => [
+                'required',
+                Rule::exists('uploads', 'file_id')->where(function ($query) {
+                    $query->whereNull('deleted_at');
+                })
+            ]
         ];
     }
 
     public function messages()
     {
         return [
-            'title.required' => 'What topic best describes your file'
+            'title.required' => 'What topic best describes your file',
+            'uploads.exists' => 'Please upload at least one file'
         ];
     }
 }
