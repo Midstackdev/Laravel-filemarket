@@ -27,7 +27,7 @@
 		        Sign out
 		    </a>
 		    @role('admin')
-		    <a class="navbar-item" href="#">
+		    <a class="navbar-item" href="{{ route('admin.index')}}">
 		        Admin
 		    </a>
 		    @endrole
