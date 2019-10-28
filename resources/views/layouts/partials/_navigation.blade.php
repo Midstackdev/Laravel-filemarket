@@ -26,6 +26,12 @@
 	                                                     document.getElementById('logout-form').submit();">
 		        Sign out
 		    </a>
+		    @role('admin')
+		    <a class="navbar-item" href="#">
+		        Admin
+		    </a>
+		    @endrole
+
 		    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="is-hidden">
 	            @csrf
 	        </form>

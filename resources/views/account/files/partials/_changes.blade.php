@@ -20,7 +20,7 @@
 				<p>{{$approval->overview}}</p>
 			@endif
 
-			@if(($uploads = $file->uploads()->where('approved', 0)->get())->count())
+			@if(($uploads = $file->uploads()->unApproved()->get())->count())
 				<strong>Uploads</strong>
 				@foreach($uploads as $upload)
 					<p>{{$upload->filename}}</p>
