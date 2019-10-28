@@ -49,6 +49,21 @@ class File extends Model
 		return 'identifier';
 	}
 
+	public function mergeApprovalProperties()
+	{
+		$this->update(
+			Arr::only(
+				$this->approvals->first()->toArray(), 
+				self::APPROVAL_PROPERTIES
+			)
+		);
+	}
+
+	public function deleteAllApprovals()
+	{
+		$this->approvals()->delete();
+	}
+
 	public function approve()
 	{
 		$this->updateToBeVisible();
@@ -60,6 +75,11 @@ class File extends Model
 		$this->uploads()->update([
 			'approved' => 1
 		]);
+	}
+
+	public function deleteUnapprovedUploads()
+	{
+		$this->uploads()->unapproved()->delete();
 	}
 
 	public function updateToBeVisible()

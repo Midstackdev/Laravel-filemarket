@@ -23,8 +23,11 @@ class FileNewController extends Controller
     	return back()->withSuccess("{$file->title} has been approved");
     }
 
-    public function destroy()
+    public function destroy(File $file)
     {
+    	$file->delete();
+    	$file->uploads->each->delete();
 
+    	return back()->withSuccess("{$file->title} has been rejected");
     }
 }
