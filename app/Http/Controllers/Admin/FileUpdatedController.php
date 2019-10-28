@@ -32,8 +32,8 @@ class FileUpdatedController extends Controller
 
     public function destroy(File $file)
     {
-    	// $file->deleteAllApprovals();
-    	// $file->deleteUnapprovedUploads();
+    	$file->deleteAllApprovals();
+    	$file->deleteUnapprovedUploads();
 
     	Mail::to($file->user)->send(new FileUpdatedRejected($file));
 
