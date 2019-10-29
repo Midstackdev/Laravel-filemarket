@@ -49,6 +49,11 @@ class File extends Model
 		return 'identifier';
 	}
 
+	public function matchesSale(Sale $sale)
+	{
+		return $this->sales->contains($sale);
+	}
+
 	public function visible()
 	{
 		if(auth()->user()->isAdmin()) {
@@ -131,6 +136,11 @@ class File extends Model
 		return Arr::only($this->toArray(), self::APPROVAL_PROPERTIES) != $properties;
 	}
 
+	public function calculateCommission()
+	{
+		return (config('filemarket.sales.commission') / 100) * $this->price;
+	}
+
 	public function uploads()
 	{
 		return $this->hasMany(Upload::class);
@@ -144,5 +154,10 @@ class File extends Model
     public function user()
     {
     	return $this->belongsTo(User::class);
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Sale::class);
     }
 }
