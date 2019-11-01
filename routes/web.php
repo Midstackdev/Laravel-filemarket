@@ -41,7 +41,8 @@ Route::group(['prefix' => '/admin', 'namespace' => 'Admin', 'middleware' => ['au
 });
 
 Route::group(['prefix' => '/{file}/checkout', 'namespace' => 'Checkout'], function() {
-	Route::post('/free', 'CheckoutController@free')->name('checkout.free');
+    Route::post('/free', 'CheckoutController@free')->name('checkout.free');
+	Route::post('/payment', 'CheckoutController@payment')->name('checkout.payment');
 });
 
 Route::post('/{file}/upload', 'Upload\UploadController@store')->name('upload.store');

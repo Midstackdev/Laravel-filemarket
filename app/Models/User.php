@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\File;
 use App\Traits\Roles\HasRoles;
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -47,6 +48,21 @@ class User extends Authenticatable
     public function isTheSameAs(User $user)
     {
         return $this->id === $user->id;
+    }
+
+    public function saleValueThisMonth()
+    {
+        $now = Carbon::now();
+
+        return $this->sales()->whereBetween('created_at', [
+            $now->startOfMonth(),
+            $now->copy()->endOfMonth()
+        ])->get()->sum('sale_price');
+    }
+
+    public function saleValueOverLifetime()
+    {
+        return  $this->sales->sum('sale_price');
     }
 
     public function files()

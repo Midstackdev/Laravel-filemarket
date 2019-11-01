@@ -4,28 +4,28 @@
 			<div class="level-item has-text-centered">
 				<div class="">
 					<p class="heading">Files</p>
-					<p class="title">0</p>
+					<p class="title">{{ $fileCount }}</p>
 				</div>
 			</div>
 
 			<div class="level-item has-text-centered">
 				<div class="">
 					<p class="heading">Sales</p>
-					<p class="title">0</p>
+					<p class="title">{{ $saleCount }}</p>
 				</div>
 			</div>
 
 			<div class="level-item has-text-centered">
 				<div class="">
 					<p class="heading">Sales this month</p>
-					<p class="title">$0</p>
+					<p class="title">${{$thisMonthEarned}}</p>
 				</div>
 			</div>
 
 			<div class="level-item has-text-centered">
 				<div class="">
 					<p class="heading">Lifetime sales</p>
-					<p class="title">$0</p>
+					<p class="title">${{ $lifetimeEarned }}</p>
 				</div>
 			</div>
 		</div>
