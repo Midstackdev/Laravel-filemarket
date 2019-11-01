@@ -49,6 +49,11 @@ class File extends Model
 		return 'identifier';
 	}
 
+	public function getUploadList()
+	{
+		return $this->uploads->pluck('path')->toArray();
+	}
+
 	public function matchesSale(Sale $sale)
 	{
 		return $this->sales->contains($sale);
